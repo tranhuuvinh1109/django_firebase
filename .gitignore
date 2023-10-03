@@ -1,0 +1,5 @@
+db.sqlite3
+appname/__pycache__
+appname/migrations/__pycache__
+projectname/__pycache__
+venv

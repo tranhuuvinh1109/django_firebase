@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+</head>
+<body>
+    <h1>Chat App</h1>
+    <div>
+        <input type="text" id="message" placeholder="Nhập tin nhắn">
+        <button id="sendMessage">Gửi</button>
+    </div>
+
+    <script>
+        // Add an event listener to the "Gửi" button
+        document.getElementById('sendMessage').addEventListener('click', function () {
+            // Get the message from the input field
+            var message = document.getElementById('message').value;
+
+            // Send an AJAX request to the Django server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/send_random_number/', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // Handle the success response from the Django server
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            console.log('Random number:', response.random_number);
+                        } else {
+                            console.error('Error:', response.error_message);
+                        }
+                    } else {
+                        console.error('Request failed with status:', xhr.status);
+                    }
+                }
+            };
+            xhr.send('message=' + message);
+        });
+    </script>
+</body>
+</html>
